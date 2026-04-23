@@ -33,7 +33,7 @@ reg out_valid_reg;
 assign out_valid = out_valid_reg;
 reg [31:0] out_reg;
 assign x_out = out_reg;
-parameter iterations = 85;
+parameter iterations = 84;
 integer i;
 
 always @(posedge clk or posedge reset) begin
