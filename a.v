@@ -1,3 +1,4 @@
+//主要問題：reorder x1 x2 x3 x4 ... to x1 x5 x9 x13 x2 x6 x10 x14 ...
 `timescale 1ns/10ps
 module GSIM ( clk, reset, in_en, b_in, out_valid, x_out);
 input   clk ;
