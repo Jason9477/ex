@@ -12,8 +12,7 @@ reg [15:0]counter;
 wire signed[31:0] so[0:5];
 reg signed [32:0] time6_in1,time6_in2,time13_in1,time13_in2,plus1,plus2;
 wire signed [32:0]plus3;
-wire [3:0] count = counter[3:0];
-
+reg [3:0] count ;
 
 always @* begin
     time13_in1=so[0];
@@ -23,16 +22,16 @@ always @* begin
     plus1= so[2];
     plus2= so[5];
     case(count)
-    4'b0000: begin time13_in1 = 0; time6_in1 = 0;plus1=0; end
-    4'b0001: begin time13_in2 = 0; time6_in2 =0; plus2=0;end
-    4'b0010: begin time6_in2 =0; plus2 =0; end
-    4'b0011: plus2 =0;
-    4'b1110: plus1 =0;
-    4'b1111: begin time6_in1 = 0; plus1 =0;end
+    4'b0000: begin time13_in2 = 0; time6_in2 = 0;plus2=0; end
+    4'b0001: begin time6_in2 =0; plus2=0;end
+    4'b0010: begin  plus2 =0; end
+    4'b1101: begin plus1 =0;end
+    4'b1110: begin time6_in1 = 0;plus1 =0;end
+    4'b1111: begin time13_in1 = 0;time6_in1 = 0; plus1 =0;end
     endcase
 end
 
-assign     plus3 = $signed({b_in_reg[count-4'b0001],16'b0});
+assign     plus3 = $signed({b_in_reg[count],16'b0});
 
 
 // 最後統一接給一個運算單元 (需包含 func_13, func_6 邏輯)
@@ -66,8 +65,10 @@ always @(posedge clk or posedge reset) begin
         counter <= 0;
         out_valid_reg <= 0;
         out_reg<=0;
+        count<=0;
     end else begin
         counter <= counter + 1;
+        if(counter!=0) count<=count+1;
         if (in_en) begin
             b_in_reg[counter] <= {(b_in)}; // Example operation, replace with actual logic
         end
