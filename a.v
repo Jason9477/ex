@@ -95,17 +95,17 @@ module ShiftRegister(
     output [31:0] so5,
     output [31:0] so6
 );
-    reg [31:0] Q1 [0:31];
+    reg [31:0] Q1 [0:15];
     integer i;
-    assign so1=Q1[17];
-    assign so2=Q1[18];
-    assign so3=Q1[19];
-    assign so4=Q1[31];
-    assign so5=Q1[30];
-    assign so6=Q1[29];
+    assign so1=Q1[1];
+    assign so2=Q1[2];
+    assign so3=Q1[3];
+    assign so4=Q1[15];
+    assign so5=Q1[14];
+    assign so6=Q1[13];
     always @(posedge CLK or posedge RESET) begin
         if (RESET)begin
-           for (i=0;i<32;i=i+1) begin
+           for (i=0;i<16;i=i+1) begin
                Q1[i]<=0;
            end
            
@@ -113,10 +113,10 @@ module ShiftRegister(
         else 
         begin
             if (enable) begin
-                for (i=0;i<31;i=i+1) begin
+                for (i=0;i<15;i=i+1) begin
                     Q1[i]<= Q1[i+1];
                 end
-                Q1[31]<= shift_in;
+                Q1[15]<= shift_in;
             end
         end
     end      
